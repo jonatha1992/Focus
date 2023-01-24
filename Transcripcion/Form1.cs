@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
+
 namespace Transcripcion
 {
     public partial class Trancripciones : Form
@@ -40,7 +41,7 @@ namespace Transcripcion
                         MessageBox.Show("Audio cargado Correctamente", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-             
+
             }
             catch (Exception ex)
             {
@@ -99,9 +100,9 @@ namespace Transcripcion
                 else
                 {
                     Reproductor.Ctlcontrols.pause();
-
                 }
             }
+           
         }
 
         private void listaCanciones_DragEnter(object sender, DragEventArgs e)
@@ -133,7 +134,7 @@ namespace Transcripcion
                     ArchivosMP3.Add(Path.GetFileName(archivoMp3));
                     RutasArchivosMP3.Add(archivoMp3);
                 }
-                
+
                 listaCanciones.DataSource = null;
                 listaCanciones.DataSource = ArchivosMP3;
                 Reproductor.URL = RutasArchivosMP3[0];
@@ -142,6 +143,40 @@ namespace Transcripcion
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text != "")
+            {
+
+                if (radioButtonA.Checked)
+                {
+                    listBoxConversacion.Items.Add("A:" + textBox1.Text);
+                    radioButtonB.Checked = true;
+                    textBox1.Text = "";
+                }
+                else
+                {
+                    listBoxConversacion.Items.Add("B:" + textBox1.Text);
+                    radioButtonA.Checked = true;
+                    textBox1.Text = "";
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay nada para agregar", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnAgregar_Click(null, null);
+                e.Handled = true;
+                this.listBoxConversacion.SelectedIndex = this.listBoxConversacion.Items.Count - 1;
             }
         }
     }
